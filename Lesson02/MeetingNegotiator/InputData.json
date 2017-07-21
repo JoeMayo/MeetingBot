@@ -1,0 +1,24 @@
+﻿{
+  "type": "message",
+  "timestamp": "2017-07-10T21:43:00.919Z",
+  "serviceUrl": "http://127.0.0.1:53771",
+  "channelId": "emulator",
+  "from": {
+    "id": "6bj15f0dkjcn1bec4c",
+    "name": "Bot"
+  },
+  "conversation": {
+    "id": "7kj5m9kb7daa9nfa3"
+  },
+  "recipient": {
+    "id": "default-user"
+  },
+  "membersAdded": [],
+  "membersRemoved": [],
+  "text": "Welcome to Meeting Scheduler! Type \"register\" to get started. After that, you can type \"appointment\" to add a new appointment, \"venue\" to add a new venue, or \"schedule\" to schedule a new meeting.",
+  "attachments": [],
+  "entities": [],
+  "replyToId": "e07361kn9eaniilmc",
+  "id": "6idn778h1lk0ii743",
+  "localTimestamp": "2017-07-10T14:43:00-07:00"
+}

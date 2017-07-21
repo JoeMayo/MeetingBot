@@ -1,0 +1,70 @@
+﻿using MeetingSchedulerFormFlow.Models;
+using MeetingsLibrary;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.FormFlow;
+using System;
+using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace MeetingSchedulerFormFlow.Dialogs
+{
+    [Serializable]
+    [Template(TemplateUsage.String, "What {&} would you like to enter?")]
+    [Template(TemplateUsage.NotUnderstood,
+        "Sorry, I didn't get that.",
+        "Please try again.",
+        "My apologies, I didn't understand '{0}'.",
+        "Excuse me, I didn't quite get that.",
+        "Sorry, but I'm a chatbot and don't know what '{0}' means.")]
+    public class RegisterForm
+    {
+        [Describe(Description = "Email Address")]
+        public string Email { get; set; }
+        public string Name { get; set; }
+        internal int UserID { get; set; }
+
+        public IForm<RegisterForm> BuildForm()
+        {
+            return new FormBuilder<RegisterForm>()
+                .Message("I have a couple quick questions.")
+                .OnCompletion(SaveValuesAsync)
+                .Build();
+        }
+
+        async Task SaveValuesAsync(IDialogContext context, RegisterForm registration)
+        {
+            MeetingData mtgData = await new MeetingState().GetAsync(context.Activity) ?? new MeetingData();
+
+            using (var ctx = new MeetingContext())
+            {
+                User user =
+                    await
+                    (from usr in ctx.Users
+                     where usr.UserID == mtgData.UserDBID ||
+                           usr.Email == registration.Email
+                     select usr)
+                    .SingleOrDefaultAsync();
+
+                if (user == null)
+                {
+                    user = new User
+                    {
+                        Email = registration.Name,
+                        Name = registration.Email
+                    };
+                    ctx.Users.Add(user);
+                }
+                else
+                {
+                    user.Name = registration.Name;
+                    user.Email = registration.Email;
+                }
+
+                await ctx.SaveChangesAsync();
+            }
+
+            await context.PostAsync("Registration succeeded!");
+        }
+    }
+}
