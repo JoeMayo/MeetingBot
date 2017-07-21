@@ -14,3 +14,5 @@ A few notes on repository contents:
 * *Lesson 05:* GUI related subjects, including text formatting, cards, and payments.
 
 * *Lesson 06:* Various tasks in publishing chatbots to channels. Includes Webchat control demo.
+
+For more information, you're welcome to follow me on Twitter - [@JoeMayo](https://twitter.com/JoeMayo).
